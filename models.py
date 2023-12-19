@@ -26,7 +26,7 @@ def mse_evaluator(model, data):
     o = model(x)
     return nn.functional.mse_loss(o, y)
 
-def rmse_evaluator(model, data):   #每一个任务中的support sample的loss
+def rmse_evaluator(model, data): 
     x, y = data
     o = model(x) 
     return torch.sqrt(nn.functional.mse_loss(o, y))
@@ -56,9 +56,9 @@ def predictor():
 
 def wnn():
     return nn.Sequential(
-        nn.Linear(19, 64),
+        nn.Linear(20, 64),
         nn.ReLU(),
-        nn.Linear(64, 19),
+        nn.Linear(64, 20),
     )
 
 class MyModel(nn.Module):
