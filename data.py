@@ -10,12 +10,12 @@ import numpy as np
 from torch import Tensor
 from torch.utils.data._utils.collate import default_collate as collate_fn
 import math
+
 def mat_name_parser(filename):
     ghi, temperature, _ = filename.replace('_', '.').split('.')
     temperature = float(temperature)/10
     parsed = r'$GHI = {} W/m^2$, $T={:.1f}$'.format(ghi, temperature)
     return parsed
-
 
 def mat_name_parser2(filename):
     name = filename.replace('R=', '').replace('L=', '').replace('C=', '').replace('.mat', '').replace('_DIBS', '')
@@ -24,14 +24,11 @@ def mat_name_parser2(filename):
     parsed = 'R={},L={},C={}'.format(r, l, c)
     return parsed
 
-
 def load_mat(file_path, data_head):
     file = scipy.io.loadmat(file_path)
     data = file[data_head][:]
     df = pd.DataFrame(data)
     return df
-
-
 
 class MetaTask:
     def __init__(self, data_train, data_test, idx=None):
@@ -51,6 +48,7 @@ def zdataset(path, head='data', parser=mat_name_parser,
     name = os.path.basename(path)
     name = parser(name)
     return transform_after(df), name
+
 class MetaZDataProvider(collections.abc.Iterable):
     def __init__(self, dataset=None, root='./data', length=20000,
                  batch_size=16, batch_size_eval=12,
